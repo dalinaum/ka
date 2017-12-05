@@ -36,7 +36,7 @@ public class DocumentPresentation extends BaseObservable {
 
     public void onClick(View _) {
         Realm realm = RealmUtil.getRealmInstance();
-        DocumentUtil.toggleFavorite(realm, docUrl);
+        DocumentUtil.toggleFavoriteAsync(realm, docUrl);
         realm.close();
     }
 }

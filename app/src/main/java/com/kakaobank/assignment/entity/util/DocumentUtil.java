@@ -9,11 +9,11 @@ import io.realm.RealmResults;
 
 public class DocumentUtil {
 
-    public static RealmResults<Document> getAllDocuments(Realm realm) {
+    public static RealmResults<Document> getAllDocumentsAsync(Realm realm) {
         return realm.where(Document.class).findAllAsync();
     }
 
-    public static RealmResults<Document> getFavorites(Realm realm) {
+    public static RealmResults<Document> getFavoritesAsync(Realm realm) {
         return realm.where(Document.class).equalTo("isFavorite", true).findAllAsync();
     }
 
@@ -23,7 +23,13 @@ public class DocumentUtil {
         });
     }
 
-    public static void toggleFavorite(Realm realm, String docUrl) {
+    public static void deleteAllDocuments(Realm realm) {
+        realm.executeTransaction(r -> {
+            r.delete(Document.class);
+        });
+    }
+
+    public static void toggleFavoriteAsync(Realm realm, String docUrl) {
         realm.executeTransactionAsync(r -> {
             Document document = r.where(Document.class).equalTo("docUrl", docUrl).findFirst();
             document.isFavorite = !document.isFavorite;

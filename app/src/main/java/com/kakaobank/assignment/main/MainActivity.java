@@ -29,32 +29,35 @@ public class MainActivity extends AppCompatActivity {
         MainActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.main_activity);
         presentation = ViewModelProviders.of(this).get(MainPresentation.class);
         binding.setPresentation(presentation);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setViewPagerAndTabLayout();
-        setEventHandler(binding);
+
+        initViewPagerAndTabLayout();
+
+        setupEventHandler(binding);
     }
 
-    private void setEventHandler(MainActivityBinding binding) {
+    private void setupEventHandler(MainActivityBinding binding) {
         presentation.searchKeywordEvent.observe(this, keyword -> {
             Snackbar.make(binding.getRoot(), R.string.loading_images, Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
             Intent intent = new Intent(MainActivity.this, ImageSearchService.class);
+            intent.putExtra(ImageSearchService.INTENT_KEY_KEYWORD, keyword);
             startService(intent);
         });
     }
 
-    private void setViewPagerAndTabLayout() {
-        sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
+    private void initViewPagerAndTabLayout() {
         viewPager = findViewById(R.id.container);
-        tabLayout = findViewById(R.id.tabLayout);
-
+        sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(sectionsPagerAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-        tabLayout.addTab(tabLayout.newTab().setText("검색"));
-        tabLayout.addTab(tabLayout.newTab().setText("북마크"));
+        tabLayout = findViewById(R.id.tabLayout);
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_search));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_bookmark));
+
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabSelectedListener(viewPager));
     }
 

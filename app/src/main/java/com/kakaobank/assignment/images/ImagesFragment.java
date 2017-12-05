@@ -13,7 +13,7 @@ public class ImagesFragment extends AbstractImagesFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        setDocuments(DocumentUtil.getAllDocuments(getRealm()));
+        setDocuments(DocumentUtil.getAllDocumentsAsync(getRealm()));
         return rootView;
     }
 }

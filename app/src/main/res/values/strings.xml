@@ -2,4 +2,6 @@
     <string name="app_name">Assignment</string>
     <string name="search">검색</string>
     <string name="loading_images">이미지를 가져오고 있습니다.</string>
+    <string name="tab_search">검색</string>
+    <string name="tab_bookmark">북마크</string>
 </resources>

@@ -13,7 +13,7 @@ public class FavoritesFragment extends AbstractImagesFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        setDocuments(DocumentUtil.getFavorites(getRealm()));
+        setDocuments(DocumentUtil.getFavoritesAsync(getRealm()));
         return rootView;
     }
 }

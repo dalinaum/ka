@@ -23,7 +23,7 @@ public class MainPresentation extends ViewModel {
     public MainPresentation() {
         realm = RealmUtil.getRealmInstance();
 
-        SearchTargetUtil.getKeywordAndPage(realm)
+        SearchTargetUtil.getKeywordAndPageFlowable(realm)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(searchTargets -> {
                     if (searchTargets.size() == 0) {
@@ -39,7 +39,7 @@ public class MainPresentation extends ViewModel {
     }
 
     private void initKeywordAndPage() {
-        SearchTargetUtil.setKeywordAndPage(realm, DEFAULT_KEYWORD, DEFAULT_PAGE, () -> {
+        SearchTargetUtil.setKeywordAndPageAsync(realm, DEFAULT_KEYWORD, DEFAULT_PAGE, () -> {
             searchKeywordEvent.setValue(keyword.get());
         });
     }
