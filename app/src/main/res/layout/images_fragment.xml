@@ -11,7 +11,7 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="StaggeredGridLayoutManager"
+        app:layoutManager="GridLayoutManager"
         app:spanCount="2" />
 
 </android.support.constraint.ConstraintLayout>

@@ -4,9 +4,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.kakaobank.assignment.images.FavoritesFragment;
 import com.kakaobank.assignment.images.ImagesFragment;
 
-public class SectionsPagerAdapter extends FragmentPagerAdapter {
+class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     public SectionsPagerAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
@@ -16,8 +17,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         if (position == 0) {
             return new ImagesFragment();
+        } else {
+            return new FavoritesFragment();
         }
-        return PlaceholderFragment.newInstance(position + 1);
     }
 
     @Override

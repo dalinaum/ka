@@ -25,12 +25,8 @@ public class ImageAdapter extends RealmRecyclerViewAdapter<Document, ImageAdapte
 
     @Override
     public void onBindViewHolder(DocumentBindingHolder holder, int position) {
-        Document item = getItem(position);
         DocumentPresentation presentation = new DocumentPresentation();
-        presentation.collection = item.collection;
-        presentation.displaySiteName = item.displaySiteName;
-        presentation.docUrl = item.docUrl;
-        presentation.imageUrl = item.imageUrl;
+        presentation.setDocument(getItem(position));
         holder.setPresentation(presentation);
     }
 
