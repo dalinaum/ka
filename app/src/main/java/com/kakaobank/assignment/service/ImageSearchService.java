@@ -1,5 +1,6 @@
 package com.kakaobank.assignment.service;
 
+import android.app.Activity;
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,6 +36,17 @@ public class ImageSearchService extends IntentService {
         authorizationValue = generateAuthorizationValue();
     }
 
+    public static void startService(Activity activity, String keyword, int page) {
+        Intent intent = new Intent(activity, ImageSearchService.class);
+        intent.putExtra(ImageSearchService.INTENT_KEY_KEYWORD, keyword);
+        intent.putExtra(ImageSearchService.INTENT_KEY_PAGE, page);
+        activity.startService(intent);
+    }
+
+    public static void startService(Activity activity, String keyword) {
+        startService(activity, keyword, 1);
+    }
+
     @NonNull
     private String generateAuthorizationValue() {
         StringBuilder stringBuilder = new StringBuilder(AUTHORIZATION_PREFIX);
@@ -66,6 +78,10 @@ public class ImageSearchService extends IntentService {
             results = kakaoAPI.images(keyword, page).execute();
         } catch (IOException e) {
             e.printStackTrace();
+            return;
+        }
+
+        if (results.body() == null) {
             return;
         }
 

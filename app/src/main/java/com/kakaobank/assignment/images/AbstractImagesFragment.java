@@ -40,4 +40,8 @@ public abstract class AbstractImagesFragment extends Fragment {
     public void setDocuments(RealmResults<Document> documents) {
         list.setAdapter(new ImageAdapter(documents));
     }
+
+    public RecyclerView getList() {
+        return list;
+    }
 }
