@@ -3,7 +3,7 @@ package com.kakaobank.assignment.main.listener;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 
-class TabSelectedListener implements TabLayout.OnTabSelectedListener {
+public class TabSelectedListener implements TabLayout.OnTabSelectedListener {
     private ViewPager viewPager;
 
     public TabSelectedListener(ViewPager viewPager) {

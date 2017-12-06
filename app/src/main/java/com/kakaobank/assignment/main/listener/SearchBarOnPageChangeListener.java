@@ -3,7 +3,7 @@ package com.kakaobank.assignment.main.listener;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-class SearchBarOnPageChangeListener implements ViewPager.OnPageChangeListener {
+public class SearchBarOnPageChangeListener implements ViewPager.OnPageChangeListener {
     private final View searchBar;
 
     public SearchBarOnPageChangeListener(View searchBar) {
