@@ -71,11 +71,11 @@ public class ImageSearchService extends IntentService {
             realm.close();
         }
 
-        KakaoService kakaoAPI = newRetrofitInstance().create(KakaoService.class);
+        KakaoService kakaoService = newRetrofitInstance().create(KakaoService.class);
         retrofit2.Response<Results> results;
 
         try {
-            results = kakaoAPI.images(keyword, page).execute();
+            results = kakaoService.images(keyword, page).execute();
         } catch (IOException e) {
             e.printStackTrace();
             return;

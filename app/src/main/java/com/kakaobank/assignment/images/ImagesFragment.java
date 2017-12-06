@@ -20,11 +20,11 @@ public class ImagesFragment extends AbstractImagesFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         setDocuments(DocumentUtil.getAllDocumentsAsync(getRealm()));
-        initInfinitScroll();
+        setupInfiniteScroll();
         return rootView;
     }
 
-    private void initInfinitScroll() {
+    private void setupInfiniteScroll() {
         InfiniteScrollListener listener = new InfiniteScrollListener((GridLayoutManager) getList().getLayoutManager(), (unused) -> {
             SearchTargetUtil.getKeywordAndPageFlowable(getRealm())
                     .observeOn(AndroidSchedulers.mainThread())
