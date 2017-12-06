@@ -8,7 +8,6 @@ public class InfiniteScrollListener extends RecyclerView.OnScrollListener {
     private static final String TAG = "InfiniteScrollListener";
     private final LinearLayoutManager linearLayoutManager;
     private final Loader loader;
-    private int previousCount = -1;
     private boolean loading = false;
     private boolean noMoreData = false;
 
@@ -35,7 +34,6 @@ public class InfiniteScrollListener extends RecyclerView.OnScrollListener {
 
         if (!loading && !noMoreData && firstVisibleItem + visibleItemCount >= totalItemCount) {
             loading = true;
-            previousCount = totalItemCount;
             loader.load(this);
         }
     }

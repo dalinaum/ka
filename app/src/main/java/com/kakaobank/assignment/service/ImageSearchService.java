@@ -9,7 +9,9 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.kakaobank.assignment.BuildConfig;
-import com.kakaobank.assignment.di.component.DaggerNetworkComponent;
+import com.kakaobank.assignment.di.component.DaggerNetworkComponentWithGSON;
+import com.kakaobank.assignment.di.module.GsonParserModule;
+import com.kakaobank.assignment.di.module.KakaoModule;
 import com.kakaobank.assignment.di.module.NetworkModule;
 import com.kakaobank.assignment.entity.Results;
 import com.kakaobank.assignment.entity.util.DocumentUtil;
@@ -57,12 +59,13 @@ public class ImageSearchService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        DaggerNetworkComponent.builder()
-                .networkModule(new NetworkModule(AUTHORIZATION, generateAuthorizationValue(), BASE_URL))
+        DaggerNetworkComponentWithGSON.builder()
+                .gsonParserModule(new GsonParserModule())
+                .kakaoModule(new KakaoModule(BASE_URL))
+                .networkModule(new NetworkModule(AUTHORIZATION, generateAuthorizationValue()))
                 .build()
                 .inject(this);
 
-        Log.d(TAG, "handleIntent");
         Bundle extras = intent.getExtras();
         String keyword = extras.getString(INTENT_KEY_KEYWORD);
 
