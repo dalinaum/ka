@@ -27,7 +27,7 @@ public class MainPresentation extends ViewModel {
         if (keywordAndPage == null) {
             initKeywordAndPage();
         } else {
-            searchKeywordEvent.setValue(keywordAndPage.keyword);
+            keyword.set(keywordAndPage.keyword);
         }
     }
 
