@@ -11,6 +11,8 @@ import android.view.View;
 
 import com.kakaobank.assignment.R;
 import com.kakaobank.assignment.databinding.MainActivityBinding;
+import com.kakaobank.assignment.main.listener.SearchBarOnPageChangeListener;
+import com.kakaobank.assignment.main.listener.TabSelectedListener;
 import com.kakaobank.assignment.service.ImageSearchService;
 
 public class MainActivity extends AppCompatActivity {

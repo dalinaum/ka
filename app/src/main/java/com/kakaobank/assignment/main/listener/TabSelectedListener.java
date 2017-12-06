@@ -1,4 +1,4 @@
-package com.kakaobank.assignment.main;
+package com.kakaobank.assignment.main.listener;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
