@@ -8,7 +8,7 @@ public class RealmUtil {
     public static Realm getRealmInstance() {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .schemaVersion(0)
-                .deleteRealmIfMigrationNeeded() // It's for test
+                .deleteRealmIfMigrationNeeded() // It's for NetworkComponent
                 .build();
         return Realm.getInstance(realmConfiguration);
     }
