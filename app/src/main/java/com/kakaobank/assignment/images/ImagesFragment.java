@@ -7,36 +7,44 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.kakaobank.assignment.entity.Document;
 import com.kakaobank.assignment.entity.SearchTarget;
 import com.kakaobank.assignment.entity.util.DocumentUtil;
 import com.kakaobank.assignment.entity.util.SearchTargetUtil;
 import com.kakaobank.assignment.service.ImageSearchService;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.realm.OrderedCollectionChangeSet;
+import io.realm.RealmResults;
 
 public class ImagesFragment extends AbstractImagesFragment {
+
+    private static final String TAG = "ImagesFragment";
+    private RealmResults<Document> documents;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        setDocuments(DocumentUtil.getAllDocumentsAsync(getRealm()));
+        documents = DocumentUtil.getAllDocumentsAsync(getRealm());
+        setDocuments(documents);
         setupInfiniteScroll();
         return rootView;
     }
 
     private void setupInfiniteScroll() {
         InfiniteScrollListener listener = new InfiniteScrollListener((GridLayoutManager) getList().getLayoutManager(), (unused) -> {
-            SearchTargetUtil.getKeywordAndPageFlowable(getRealm())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(searchTargets -> {
-                        if (searchTargets.size() == 1) {
-                            SearchTarget searchTarget = searchTargets.first();
-                            ImageSearchService.startService(getActivity(), searchTarget.keyword, searchTarget.page + 1);
-                        }
-                    });
+            SearchTarget keywordAndPage = SearchTargetUtil.getKeywordAndPage(getRealm());
+            if (keywordAndPage != null) {
+                ImageSearchService.startService(getActivity(), keywordAndPage.keyword, keywordAndPage.page + 1);
+            }
         });
-        getRealm().addChangeListener(realm -> {
-            listener.setLoadingCompleted();
+        documents.addChangeListener((documents, changeSet) -> {
+            if (changeSet == null) {
+                return;
+            }
+            OrderedCollectionChangeSet.Range[] insertionRanges = changeSet.getInsertionRanges();
+            if (insertionRanges != null && insertionRanges.length > 0) {
+                listener.setLoadingCompleted();
+            }
         });
         getList().addOnScrollListener(listener);
     }

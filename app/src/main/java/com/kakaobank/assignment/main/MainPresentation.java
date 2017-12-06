@@ -4,11 +4,11 @@ import android.arch.lifecycle.ViewModel;
 import android.databinding.ObservableField;
 import android.view.View;
 
+import com.kakaobank.assignment.entity.SearchTarget;
 import com.kakaobank.assignment.entity.util.RealmUtil;
 import com.kakaobank.assignment.entity.util.SearchTargetUtil;
 import com.kakaobank.assignment.util.SingleLiveEvent;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.realm.Realm;
 
 public class MainPresentation extends ViewModel {
@@ -23,15 +23,12 @@ public class MainPresentation extends ViewModel {
     public MainPresentation() {
         realm = RealmUtil.getRealmInstance();
 
-        SearchTargetUtil.getKeywordAndPageFlowable(realm)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(searchTargets -> {
-                    if (searchTargets.size() == 0) {
-                        initKeywordAndPage();
-                    } else {
-                        keyword.set(searchTargets.first().keyword);
-                    }
-                });
+        SearchTarget keywordAndPage = SearchTargetUtil.getKeywordAndPage(realm);
+        if (keywordAndPage == null) {
+            initKeywordAndPage();
+        } else {
+            searchKeywordEvent.setValue(keywordAndPage.keyword);
+        }
     }
 
     public void emitSearchEvent(View _) {
@@ -40,6 +37,7 @@ public class MainPresentation extends ViewModel {
 
     private void initKeywordAndPage() {
         SearchTargetUtil.setKeywordAndPageAsync(realm, DEFAULT_KEYWORD, DEFAULT_PAGE, () -> {
+            keyword.set(DEFAULT_KEYWORD);
             searchKeywordEvent.setValue(keyword.get());
         });
     }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.kakaobank.assignment.BuildConfig;
@@ -56,14 +57,19 @@ public class ImageSearchService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
+        Log.d(TAG, "handleIntent");
         Bundle extras = intent.getExtras();
         String keyword = extras.getString(INTENT_KEY_KEYWORD);
+
+        Log.d(TAG, "keyword: " + keyword);
 
         if (keyword == null || keyword.length() == 0) {
             return;
         }
 
         int page = extras.getInt(INTENT_KEY_PAGE, 1);
+
+        Log.d(TAG, "page: " + page);
 
         if (page == 1) {
             Realm realm = RealmUtil.getRealmInstance();
@@ -81,12 +87,14 @@ public class ImageSearchService extends IntentService {
             return;
         }
 
-        if (results.body() == null) {
+        Results body = results.body();
+        if (body == null) {
+            results.raw().body().close();
             return;
         }
 
         Realm realm = RealmUtil.getRealmInstance();
-        DocumentUtil.addDocuments(realm, results.body().documents);
+        DocumentUtil.addDocuments(realm, body.documents);
         SearchTargetUtil.setKeywordAndPage(realm, keyword, page);
         realm.close();
     }
