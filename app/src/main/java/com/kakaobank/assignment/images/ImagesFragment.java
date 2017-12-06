@@ -20,18 +20,19 @@ public class ImagesFragment extends AbstractImagesFragment {
 
     private static final String TAG = "ImagesFragment";
     private RealmResults<Document> documents;
+    private InfiniteScrollListener listener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         documents = DocumentUtil.getAllDocumentsAsync(getRealm());
         setDocuments(documents);
-        setupInfiniteScroll();
+        setInfiniteScrollListener();
         return rootView;
     }
 
-    private void setupInfiniteScroll() {
-        InfiniteScrollListener listener = new InfiniteScrollListener((GridLayoutManager) getList().getLayoutManager(), (unused) -> {
+    private void setInfiniteScrollListener() {
+        listener = new InfiniteScrollListener((GridLayoutManager) getList().getLayoutManager(), (unused) -> {
             SearchTarget keywordAndPage = SearchTargetUtil.getKeywordAndPage(getRealm());
             if (keywordAndPage != null) {
                 ImageSearchService.startService(getActivity(), keywordAndPage.keyword, keywordAndPage.page + 1);

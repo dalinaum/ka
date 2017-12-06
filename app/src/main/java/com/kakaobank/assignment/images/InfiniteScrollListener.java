@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 
 public class InfiniteScrollListener extends RecyclerView.OnScrollListener {
 
+    private static final String TAG = "InfiniteScrollListener";
     private final LinearLayoutManager linearLayoutManager;
     private final Loader loader;
     private int previousCount = -1;
@@ -27,6 +28,10 @@ public class InfiniteScrollListener extends RecyclerView.OnScrollListener {
         int visibleItemCount = recyclerView.getChildCount();
         int totalItemCount = linearLayoutManager.getItemCount();
         int firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+
+        if (firstVisibleItem == -1 || totalItemCount == 0 || visibleItemCount == totalItemCount) {
+            return;
+        }
 
         if (!loading && !noMoreData && firstVisibleItem + visibleItemCount >= totalItemCount) {
             loading = true;
