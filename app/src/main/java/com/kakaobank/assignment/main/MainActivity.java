@@ -7,7 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.kakaobank.assignment.R;
 import com.kakaobank.assignment.databinding.MainActivityBinding;
@@ -28,12 +28,7 @@ public class MainActivity extends AppCompatActivity {
         MainActivityBinding binding = DataBindingUtil.setContentView(this, R.layout.main_activity);
         presentation = ViewModelProviders.of(this).get(MainPresentation.class);
         binding.setPresentation(presentation);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         initViewPagerAndTabLayout();
-
         setupEventHandler(binding);
     }
 
@@ -54,7 +49,9 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_search));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_bookmark));
 
+        View searchBar = findViewById(R.id.searchBar);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        viewPager.addOnPageChangeListener(new SearchBarOnPageChangeListener(searchBar));
         tabLayout.addOnTabSelectedListener(new TabSelectedListener(viewPager));
     }
 
